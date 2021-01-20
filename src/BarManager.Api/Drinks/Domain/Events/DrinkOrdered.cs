@@ -1,10 +1,8 @@
 ﻿using System;
 
-using MediatR;
-
 namespace BarManager.Api.Drinks.Domain.Events
 {
-    public class DrinkOrdered : INotification
+    public class DrinkOrdered
     {
         public DrinkOrdered(Guid id, string name)
         {
