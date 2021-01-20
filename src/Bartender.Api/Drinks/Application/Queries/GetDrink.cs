@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BarManager.Api.Drinks.Application.Queries
+namespace Bartender.Api.Drinks.Application.Queries
 {
     public class GetDrinkById
     {

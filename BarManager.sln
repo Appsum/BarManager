@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bartender.Api", "src\Barten
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Waitress.Api", "src\Waitress.Api\Waitress.Api.csproj", "{C74DCCC3-E719-43BD-AD2A-DC316738E89D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationEvents", "src\IntegrationEvents\IntegrationEvents.csproj", "{96614FF4-3A53-4830-B39F-DC6E3E4A6A12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{C74DCCC3-E719-43BD-AD2A-DC316738E89D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C74DCCC3-E719-43BD-AD2A-DC316738E89D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C74DCCC3-E719-43BD-AD2A-DC316738E89D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96614FF4-3A53-4830-B39F-DC6E3E4A6A12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96614FF4-3A53-4830-B39F-DC6E3E4A6A12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96614FF4-3A53-4830-B39F-DC6E3E4A6A12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96614FF4-3A53-4830-B39F-DC6E3E4A6A12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -30,6 +36,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{B0E398DE-F889-4323-9455-5B60D0941D3D} = {1AC5B471-9562-4356-9551-9871DCE19ACF}
 		{C74DCCC3-E719-43BD-AD2A-DC316738E89D} = {1AC5B471-9562-4356-9551-9871DCE19ACF}
+		{96614FF4-3A53-4830-B39F-DC6E3E4A6A12} = {1AC5B471-9562-4356-9551-9871DCE19ACF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {68CD5C98-1F07-4C0B-94B4-72887C2F71E5}

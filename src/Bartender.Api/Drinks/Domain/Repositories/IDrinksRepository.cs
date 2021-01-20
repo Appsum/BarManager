@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace BarManager.Api.Drinks.Domain.Repositories
+namespace Bartender.Api.Drinks.Domain.Repositories
 {
     public interface IDrinksRepository
     {
-        void Add(Drink drink);
-        void Update(Guid id, Drink drink);
-        void Delete(Guid id);
-        Drink GetById(Guid id);
-        IReadOnlyCollection<Drink> GetAll();
+        Task Add(Drink drink);
+        Task Update(Guid id, Drink drink);
+        Task Delete(Guid id);
+        Task<Drink> GetById(Guid id);
+        Task<IReadOnlyCollection<Drink>> GetAll();
     }
 }

@@ -1,3 +1,8 @@
+using Bartender.Api.Drinks.Application.EventBus;
+using Bartender.Api.Drinks.Domain.Repositories;
+using Bartender.Api.Drinks.Infrastructure.EventBus;
+using Bartender.Api.Drinks.Infrastructure.Repositories;
+
 using FluentValidation.AspNetCore;
 
 using Microsoft.AspNetCore.Builder;
@@ -7,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-namespace BarManager.Api
+namespace Bartender.Api
 {
     public class Startup
     {
@@ -22,6 +27,9 @@ namespace BarManager.Api
         public void ConfigureServices(IServiceCollection services)
         {
             // services.AddMediatR(typeof(Startup));
+
+            services.AddTransient<IDrinksRepository, InMemoryDrinksRepository>();
+            services.AddTransient<IEventBus, NullEventBus>();
 
             services.AddControllers()
                     .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<Startup>());

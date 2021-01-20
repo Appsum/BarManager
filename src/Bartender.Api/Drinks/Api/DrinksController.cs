@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 
-using BarManager.Api.Drinks.Domain;
-
 using Bartender.Api.Drinks.Api.Models;
+using Bartender.Api.Drinks.Domain;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bartender.Api.Drinks.Api
@@ -16,8 +15,7 @@ namespace Bartender.Api.Drinks.Api
     public class DrinksController : ControllerBase
     {
         [HttpGet] // GET api/drinks
-        [Produces(typeof(ICollection<Drink>))]
-        [ProducesResponseType((int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ICollection<Drink>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetAll()
         {
             await Task.CompletedTask;
@@ -26,9 +24,8 @@ namespace Bartender.Api.Drinks.Api
         }
 
         [HttpGet("{id}")] // GET api/drinks/{id}
-        [Produces(typeof(Drink))]
-        [ProducesResponseType((int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(Drink), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
             if (id == Guid.Empty)
@@ -42,9 +39,8 @@ namespace Bartender.Api.Drinks.Api
         }
 
         [HttpPost] // POST api/drinks
-        [Produces(typeof(Drink))]
-        [ProducesResponseType((int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(Drink), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateDrinkDto createDrinkDto)
         {
             await Task.CompletedTask;
@@ -53,9 +49,8 @@ namespace Bartender.Api.Drinks.Api
         }
 
         [HttpPut("{id}")] // PUT api/drinks/{id}
-        [Produces(typeof(Drink))]
-        [ProducesResponseType((int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(Drink), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Rename([FromRoute] Guid id, [FromBody] RenameDrinkDto renameDrinkDto)
         {
             if (id == Guid.Empty)
@@ -69,18 +64,18 @@ namespace Bartender.Api.Drinks.Api
         }
 
         [HttpPost("order")] // POST api/drinks/order
-        [ProducesResponseType((int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> OrderDrink([FromBody] OrderDrinkDto orderDrinkDto)
-        { 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> OrderDrinks([FromBody] OrderDrinksDto orderDrinksDto)
+        {
             await Task.CompletedTask;
 
             return Ok();
         }
 
         [HttpDelete("{id}")] // DELETE api/drinks/{id}
-        [ProducesResponseType((int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             if (id == Guid.Empty)

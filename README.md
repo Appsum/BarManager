@@ -1,14 +1,16 @@
 # BarManager
-The **Barterder project** exposes an Api to get, create, rename, delete and order drinks. The storage that is used will be Azure Table Storage. Ordering drinks puts a message on the Azure Servicebus.
+The **Barterder project** exposes an Api to get, create, rename, delete and order drinks. The storage that is used will be Azure Table Storage. Ordering drinks puts a message with contract OrderPlaced on the Azure Servicebus.
 
 The **Waitress.Api project** listens to the same Azure ServiceBus topic for an OrderPlaced message, which puts a message on the SignalR Tables Hub for clients to subscribe on. It also creates a receipt file on the Azure Blob storage which contains the data of the order.
+
+The **IntegrationEvents project** contains the shared contracts of the messages sent between the microservices.
 ## Basic version of Clean Architecture
 ### Drinks feature
 
 ### Domain
 - Entities, currently only Drink
 - Interfaces for the repositories for the entities
-- Events that can happen
+- DomainEvents when an entity is changes (not used in this sample app)
 
 ### Application
 - CQRS
@@ -22,8 +24,10 @@ The **Waitress.Api project** listens to the same Azure ServiceBus topic for an O
 - Controllers
   - These will send the command/query request to the IMediator
 - Dto's for the actions
- -FluentValidation on dto's (configured in Startup using
+  - FluentValidation on dto's (configured in Startup using
 ```csharp
 services.AddControllers()
   .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<Startup>()))
 ```
+
+## MediatR

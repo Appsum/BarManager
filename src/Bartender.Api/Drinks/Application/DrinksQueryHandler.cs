@@ -1,12 +1,9 @@
-﻿using BarManager.Api.Drinks.Domain.Repositories;
+﻿using Bartender.Api.Drinks.Domain.Repositories;
 
-namespace BarManager.Api.Drinks.Application
+namespace Bartender.Api.Drinks.Application
 {
     public class DrinksQueryHandler
     {
-        public DrinksQueryHandler(IDrinksRepository drinksRepository)
-        {
-            
-        }
+        public DrinksQueryHandler(IDrinksRepository drinksRepository) { }
     }
 }

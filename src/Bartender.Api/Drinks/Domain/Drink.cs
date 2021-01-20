@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BarManager.Api.Drinks.Domain
+namespace Bartender.Api.Drinks.Domain
 {
     public class Drink
     {
