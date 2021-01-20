@@ -1,3 +1,5 @@
+using FluentValidation.AspNetCore;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,7 +23,9 @@ namespace BarManager.Api
         {
             // services.AddMediatR(typeof(Startup));
 
-            services.AddControllers();
+            services.AddControllers()
+                    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<Startup>());
+
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "BarManager.Api", Version = "v1"}); });
         }
 
