@@ -2,7 +2,7 @@
 
 namespace Bartender.Api.Drinks.Application.Commands
 {
-    public class OrderDrink
+    public class OrderDrink : ICommand
     {
         public OrderDrink(Guid drinkId, int amount)
         {

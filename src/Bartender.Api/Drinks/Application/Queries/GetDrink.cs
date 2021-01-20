@@ -1,8 +1,10 @@
 ﻿using System;
 
+using Bartender.Api.Drinks.Domain;
+
 namespace Bartender.Api.Drinks.Application.Queries
 {
-    public class GetDrinkById
+    public class GetDrinkById : IQuery<Drink>
     {
         public GetDrinkById(Guid drinkId)
         {

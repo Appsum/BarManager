@@ -2,7 +2,7 @@
 
 namespace Bartender.Api.Drinks.Application.Commands
 {
-    public class RenameDrink
+    public class RenameDrink : ICommand
     {
         public RenameDrink(Guid drinkId, string newName)
         {

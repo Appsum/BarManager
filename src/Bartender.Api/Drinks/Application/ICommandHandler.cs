@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Bartender.Api.Drinks.Application.Commands;
+
+using MediatR;
 
 namespace Bartender.Api.Drinks.Application
 {
-    public interface ICommandHandler
-    {
-        
-    }
+    public interface ICommandHandler<in TCommand> 
+        : IRequestHandler<TCommand> where TCommand : ICommand { }
 }
