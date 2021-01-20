@@ -5,6 +5,8 @@ using Bartender.Api.Drinks.Infrastructure.Repositories;
 
 using FluentValidation.AspNetCore;
 
+using MediatR;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,7 +28,7 @@ namespace Bartender.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddMediatR(typeof(Startup));
+            services.AddMediatR(typeof(Startup));
 
             services.AddTransient<IDrinksRepository, InMemoryDrinksRepository>();
             services.AddTransient<IEventBus, NullEventBus>();
