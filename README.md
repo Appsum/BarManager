@@ -1,5 +1,7 @@
 # BarManager
+The **Barterder project** exposes an Api to get, create, rename, delete and order drinks. The storage that is used will be Azure Table Storage. Ordering drinks puts a message on the Azure Servicebus.
 
+The **Waitress.Api project** listens to the same Azure ServiceBus topic for an OrderPlaced message, which puts a message on the SignalR Tables Hub for clients to subscribe on. It also creates a receipt file on the Azure Blob storage which contains the data of the order.
 ## Basic version of Clean Architecture
 ### Drinks feature
 
