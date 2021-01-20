@@ -31,3 +31,30 @@ services.AddControllers()
 ```
 
 ## MediatR
+Install Nuget package
+```MediatR.Extensions.Microsoft.DependencyInjection```
+Uncomment
+```
+services.AddMediatR(typeof(Startup));
+```
+Make the Commands and queries implement IRequest<>
+
+MediatR has no distinction between Commands and queries, everything is a Request. This distinction can be created with an interface for each:
+```csharp
+public interface ICommand : IRequest<Unit> { }
+```
+```csharp
+public interface IQuery<out T> : IRequest<T> { }
+```
+And for the handlers:
+```csharp
+public interface ICommandHandler<in TCommand>
+    : IRequestHandler<TCommand> where TCommand : ICommand { }
+```
+```csharp
+public interface IQueryHandler<in TQuery, TResult>
+    : IRequestHandler<TQuery, TResult> where TQuery : IQuery<TResult> { }
+```
+Events inherit from ```INotification<>```
+
+Implement the Command & Query Handlers
