@@ -35,7 +35,7 @@ namespace Bartender.Drinks.Infrastructure.Repositories
 
         public async Task<Drink> GetById(Guid id)
         {
-            TableResult result = await _table.ExecuteAsync(TableOperation.Retrieve(Drink.PartitionKeyDefault, id.ToString("N")));
+            TableResult result = await _table.ExecuteAsync(TableOperation.Retrieve<Drink>(Drink.PartitionKeyDefault, id.ToString("N")));
             return result.Result as Drink;
         }
 
