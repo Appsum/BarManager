@@ -9,7 +9,7 @@ using MediatR;
 
 namespace Bartender.Drinks.Application
 {
-    public class DrinksCommandHandler : ICommandHandler<AddDrink>, ICommandHandler<RenameDrink>, ICommandHandler<DeleteDrink>, ICommandHandler<OrderDrinks>
+    public class DrinksCommandHandler : ICommandHandler<CreateDrink>, ICommandHandler<RenameDrink>, ICommandHandler<DeleteDrink>, ICommandHandler<OrderDrinks>
     {
         private readonly IDrinksRepository _drinksRepository;
 
@@ -18,7 +18,7 @@ namespace Bartender.Drinks.Application
             _drinksRepository = drinksRepository;
         }
 
-        public async Task<Unit> Handle(AddDrink request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateDrink request, CancellationToken cancellationToken)
         {
             await _drinksRepository.Add(new Drink(request.Name));
             return Unit.Value;
