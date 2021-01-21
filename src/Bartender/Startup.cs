@@ -35,7 +35,8 @@ namespace Bartender
         {
             services.AddMediatR(typeof(Startup));
 
-            services.AddSingleton<IDrinksRepository, InMemoryDrinksRepository>();
+            // services.AddSingleton<IDrinksRepository, InMemoryDrinksRepository>();
+            services.AddTransient<IDrinksRepository, AzureTableStorageDrinksRepository>();
             services.AddTransient<IEventBus, NullEventBus>();
 
             services.Configure<ApplicationInsightsSettings>(Configuration.GetSection(ApplicationInsightsSettings.ConfigurationKey));
