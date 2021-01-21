@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-using Bartender.Api.Drinks.Application.Commands.Dtos;
+using Bartender.Drinks.Application.Commands.Dtos;
 
-namespace Bartender.Api.Drinks.Api.Models
+namespace Bartender.Drinks.Api.Models
 {
     public class OrderDrinksDto
     {

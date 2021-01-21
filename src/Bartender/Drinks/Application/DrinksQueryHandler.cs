@@ -1,6 +1,6 @@
-﻿using Bartender.Api.Drinks.Domain.Repositories;
+﻿using Bartender.Drinks.Domain.Repositories;
 
-namespace Bartender.Api.Drinks.Application
+namespace Bartender.Drinks.Application
 {
     public class DrinksQueryHandler
     {

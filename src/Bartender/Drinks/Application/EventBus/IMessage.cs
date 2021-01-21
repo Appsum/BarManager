@@ -1,4 +1,4 @@
-﻿namespace Bartender.Api.Drinks.Application.EventBus
+﻿namespace Bartender.Drinks.Application.EventBus
 {
     public interface IMessage { }
 }

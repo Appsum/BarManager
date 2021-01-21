@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Bartender.Api.Drinks.Domain;
-using Bartender.Api.Drinks.Domain.Repositories;
+using Bartender.Drinks.Domain;
+using Bartender.Drinks.Domain.Repositories;
 
-namespace Bartender.Api.Drinks.Infrastructure.Repositories
+namespace Bartender.Drinks.Infrastructure.Repositories
 {
     public class InMemoryDrinksRepository : IDrinksRepository
     {

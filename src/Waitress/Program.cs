@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Waitress.Api
+namespace Waitress
 {
     public class Program
     {

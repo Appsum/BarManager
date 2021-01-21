@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-using Bartender.Api.Drinks.Application.EventBus;
+using Bartender.Drinks.Application.EventBus;
 
-namespace Bartender.Api.Drinks.Infrastructure.EventBus
+namespace Bartender.Drinks.Infrastructure.EventBus
 {
     public class NullEventBus : IEventBus
     {

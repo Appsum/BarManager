@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Bartender.Api.Drinks.Domain
+namespace Bartender.Drinks.Domain
 {
     public class Order
     {

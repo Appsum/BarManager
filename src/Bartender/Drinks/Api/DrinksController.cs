@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-using Bartender.Api.Drinks.Api.Models;
-using Bartender.Api.Drinks.Domain;
+using Bartender.Drinks.Api.Models;
+using Bartender.Drinks.Domain;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Bartender.Api.Drinks.Api
+namespace Bartender.Drinks.Api
 {
     [ApiController]
     [Route("api/[controller]")]

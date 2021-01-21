@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bartender.Api.Drinks.Application.Commands
+namespace Bartender.Drinks.Application.Commands
 {
     public class DeleteDrink
     {

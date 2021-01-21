@@ -1,4 +1,4 @@
-﻿namespace Bartender.Api.Drinks.Application.Queries
+﻿namespace Bartender.Drinks.Application.Queries
 {
     public class GetAllDrinks { }
 }

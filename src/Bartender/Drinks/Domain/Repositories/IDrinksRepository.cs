@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Bartender.Api.Drinks.Domain.Repositories
+namespace Bartender.Drinks.Domain.Repositories
 {
     public interface IDrinksRepository
     {

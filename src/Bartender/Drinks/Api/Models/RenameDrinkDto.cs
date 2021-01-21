@@ -1,4 +1,4 @@
-﻿namespace Bartender.Api.Drinks.Api.Models
+﻿namespace Bartender.Drinks.Api.Models
 {
     public class RenameDrinkDto
     {

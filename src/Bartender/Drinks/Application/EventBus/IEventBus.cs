@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Bartender.Api.Drinks.Application.EventBus
+namespace Bartender.Drinks.Application.EventBus
 {
     public interface IEventBus
     {

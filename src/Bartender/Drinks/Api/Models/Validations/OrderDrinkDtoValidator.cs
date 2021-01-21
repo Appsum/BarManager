@@ -1,10 +1,10 @@
 ﻿using System;
 
-using Bartender.Api.Drinks.Application.Commands.Dtos;
+using Bartender.Drinks.Application.Commands.Dtos;
 
 using FluentValidation;
 
-namespace Bartender.Api.Drinks.Api.Models.Validations
+namespace Bartender.Drinks.Api.Models.Validations
 {
     public class OrderDrinkDtoValidator : AbstractValidator<OrderDrinkDto>
     {

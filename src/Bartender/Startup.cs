@@ -1,7 +1,7 @@
-using Bartender.Api.Drinks.Application.EventBus;
-using Bartender.Api.Drinks.Domain.Repositories;
-using Bartender.Api.Drinks.Infrastructure.EventBus;
-using Bartender.Api.Drinks.Infrastructure.Repositories;
+using Bartender.Drinks.Application.EventBus;
+using Bartender.Drinks.Domain.Repositories;
+using Bartender.Drinks.Infrastructure.EventBus;
+using Bartender.Drinks.Infrastructure.Repositories;
 
 using FluentValidation.AspNetCore;
 
@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
-namespace Bartender.Api
+namespace Bartender
 {
     public class Startup
     {

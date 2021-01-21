@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Bartender.Api.Drinks.Api.Models.Validations
+namespace Bartender.Drinks.Api.Models.Validations
 {
     public class RenameDrinkDtoValidator : AbstractValidator<RenameDrinkDto>
     {

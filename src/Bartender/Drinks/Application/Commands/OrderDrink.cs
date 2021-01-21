@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Bartender.Api.Drinks.Application.Commands
+namespace Bartender.Drinks.Application.Commands
 {
     public class OrderDrinks
     {
