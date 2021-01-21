@@ -1,3 +1,5 @@
+using System;
+
 using Bartender.Configuration;
 using Bartender.Drinks.Application.EventBus;
 using Bartender.Drinks.Domain.Repositories;
@@ -10,9 +12,11 @@ using MediatR;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 namespace Bartender
@@ -39,10 +43,27 @@ namespace Bartender
             services.Configure<ServiceBusSettings>(Configuration.GetSection(ServiceBusSettings.ConfigurationKey));
             services.Configure<TableStorageSettings>(Configuration.GetSection(TableStorageSettings.ConfigurationKey));
 
+            RegisterCloudTableClient(services);
+
             services.AddControllers()
                     .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "BarManager.Api", Version = "v1"}); });
+        }
+
+        private static void RegisterCloudTableClient(IServiceCollection services)
+        {
+            services.AddTransient(provider =>
+            {
+                var options = provider.GetService<IOptions<TableStorageSettings>>();
+                if (options == null)
+                {
+                    throw new NullReferenceException("Table Storage Settings are not set in the configuration");
+                }
+
+                CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(options.Value.ConnectionString);
+                return cloudStorageAccount.CreateCloudTableClient();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
