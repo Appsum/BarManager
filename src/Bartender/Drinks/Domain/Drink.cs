@@ -6,15 +6,17 @@ namespace Bartender.Drinks.Domain
 {
     public class Drink : TableEntity
     {
+        public static string PartitionKeyDefault = nameof(Drink);
         public Drink()
         {
 
         }
         public Drink(string name) : this(Guid.NewGuid(), name) { }
 
-        public Drink(Guid id, string name)
+        public Drink(Guid id, string name) : this()
         {
             RowKey = id.ToString("N");
+            PartitionKey = PartitionKeyDefault;
             Name = name;
         }
 
