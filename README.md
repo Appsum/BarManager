@@ -2,6 +2,7 @@
 1. [The BarManager application](#the-barmanager-application)
 2. [Basic version of Clean Architecture](#basic-version-of-clean-architecture)
 3. [MediatR](#mediatr)
+3. [Azure Table Storage](#azure-table-storage)
 
 # The BarManager application
 The **Barterder project** exposes an Api to get, create, rename, delete and order drinks. The storage that is used will be Azure Table Storage. Ordering drinks puts a message with contract OrderPlaced on the Azure Servicebus.
@@ -74,3 +75,9 @@ The IMediator will be used in the controller to dispatch the commands and querie
   - This means that only one handler can handle the request and a response is expected (Unit, an empty response, is also a response)
 - Using the ```Publish()``` method, a pub/sub or publish/subscribe pattern is used
   - This means that multiple Handlers can listen to this and no response is expected
+
+## Azure Table Storage
+In Azure Portal:
+1. Create resource group with name
+2. Create Storage Account in the resource group
+3. In the Storage Account, under Table service, create a new Table called ```Drinks```
