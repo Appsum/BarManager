@@ -6,6 +6,6 @@ namespace Bartender.Drinks.Api.Models
 {
     public class OrderDrinksDto
     {
-        public IEnumerable<OrderDrinkDto> DrinksOrder { get; set; }
+        public ICollection<OrderDrinkDto> DrinksOrder { get; set; }
     }
 }
