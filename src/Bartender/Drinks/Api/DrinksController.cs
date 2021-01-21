@@ -39,7 +39,7 @@ namespace Bartender.Drinks.Api
         }
 
         [HttpPost] // POST api/drinks
-        [ProducesResponseType(typeof(Drink), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Create([FromBody] CreateDrinkDto createDrinkDto)
         {
@@ -49,7 +49,7 @@ namespace Bartender.Drinks.Api
         }
 
         [HttpPut("{id}")] // PUT api/drinks/{id}
-        [ProducesResponseType(typeof(Drink), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Rename([FromRoute] Guid id, [FromBody] RenameDrinkDto renameDrinkDto)
         {
