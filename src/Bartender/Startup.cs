@@ -13,6 +13,7 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Azure.Cosmos.Table;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -46,6 +47,8 @@ namespace Bartender
 
             RegisterCloudTableClient(services);
 
+            RegisterAzureServiceBusTopicClient(services);
+
             services.AddControllers()
                     .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<Startup>());
 
@@ -64,6 +67,15 @@ namespace Bartender
 
                 CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(options.Value.ConnectionString);
                 return cloudStorageAccount.CreateCloudTableClient();
+            });
+        }
+
+        private static void RegisterAzureServiceBusTopicClient(IServiceCollection services)
+        {
+            services.AddSingleton<ITopicClient>(serviceProvider =>
+            {
+                ServiceBusSettings serviceBusSettings = serviceProvider.GetRequiredService<IOptions<ServiceBusSettings>>().Value;
+                return new TopicClient(serviceBusSettings.ConnectionString, serviceBusSettings.TopicName, RetryPolicy.Default);
             });
         }
 
