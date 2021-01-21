@@ -28,7 +28,7 @@ namespace Bartender.Drinks.Infrastructure.Repositories
 
         public async Task Delete(Guid id)
         {
-            TableResult result = await _table.ExecuteAsync(TableOperation.Retrieve(Drink.PartitionKeyDefault, id.ToString("N")));
+            TableResult result = await _table.ExecuteAsync(TableOperation.Retrieve<Drink>(Drink.PartitionKeyDefault, id.ToString("N")));
             var drinkFromStorage = result.Result as Drink;
             await _table.ExecuteAsync(TableOperation.Delete(drinkFromStorage));
         }
