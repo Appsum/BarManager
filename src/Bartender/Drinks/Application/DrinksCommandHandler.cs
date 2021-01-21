@@ -29,13 +29,22 @@ namespace Bartender.Drinks.Application
             Drink drink = await _drinksRepository.GetById(request.DrinkId);
 
             drink.Rename(request.NewName);
-            await _drinksRepository.Update(drink);
+            await _drinksRepository.Update(request.DrinkId, drink);
 
             return Unit.Value;
         }
 
-        public async Task<Unit> Handle(DeleteDrink request, CancellationToken cancellationToken) => throw new System.NotImplementedException();
+        public async Task<Unit> Handle(DeleteDrink request, CancellationToken cancellationToken)
+        {
+            await _drinksRepository.Delete(request.DrinkId);
+            return Unit.Value;
+        }
 
-        public async Task<Unit> Handle(OrderDrinks request, CancellationToken cancellationToken) => throw new System.NotImplementedException();
+        public Task<Unit> Handle(OrderDrinks request, CancellationToken cancellationToken)
+        {
+            // To be implemented with EventBus
+
+            return Task.FromResult(Unit.Value);
+        }
     }
 }
