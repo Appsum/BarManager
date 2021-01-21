@@ -24,7 +24,15 @@ namespace Bartender.Drinks.Application
             return Unit.Value;
         }
 
-        public async Task<Unit> Handle(RenameDrink request, CancellationToken cancellationToken) => throw new System.NotImplementedException();
+        public async Task<Unit> Handle(RenameDrink request, CancellationToken cancellationToken)
+        {
+            Drink drink = await _drinksRepository.GetById(request.DrinkId);
+
+            drink.Rename(request.NewName);
+            await _drinksRepository.Update(drink);
+
+            return Unit.Value;
+        }
 
         public async Task<Unit> Handle(DeleteDrink request, CancellationToken cancellationToken) => throw new System.NotImplementedException();
 
