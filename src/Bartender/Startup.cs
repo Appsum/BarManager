@@ -1,3 +1,4 @@
+using Bartender.Configuration;
 using Bartender.Drinks.Application.EventBus;
 using Bartender.Drinks.Domain.Repositories;
 using Bartender.Drinks.Infrastructure.EventBus;
@@ -30,6 +31,11 @@ namespace Bartender
 
             services.AddSingleton<IDrinksRepository, InMemoryDrinksRepository>();
             services.AddTransient<IEventBus, NullEventBus>();
+
+            services.Configure<ApplicationInsightsSettings>(Configuration.GetSection(ApplicationInsightsSettings.ConfigurationKey));
+            services.Configure<EventHubSettings>(Configuration.GetSection(EventHubSettings.ConfigurationKey));
+            services.Configure<ServiceBusSettings>(Configuration.GetSection(ServiceBusSettings.ConfigurationKey));
+            services.Configure<TableStorageSettings>(Configuration.GetSection(TableStorageSettings.ConfigurationKey));
 
             services.AddControllers()
                     .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<Startup>());
