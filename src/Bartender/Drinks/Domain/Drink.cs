@@ -13,6 +13,11 @@ namespace Bartender.Drinks.Domain
         }
 
         public Guid Id { get; }
-        public string Name { get; }
+        public string Name { get; private set; }
+
+        public void Rename(string newName)
+        {
+            Name = newName;
+        }
     }
 }
