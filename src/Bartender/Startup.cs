@@ -28,7 +28,7 @@ namespace Bartender
         {
             // services.AddMediatR(typeof(Startup));
 
-            services.AddTransient<IDrinksRepository, InMemoryDrinksRepository>();
+            services.AddSingleton<IDrinksRepository, InMemoryDrinksRepository>();
             services.AddTransient<IEventBus, NullEventBus>();
 
             services.AddControllers()
