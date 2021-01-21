@@ -55,7 +55,7 @@ namespace Bartender.Drinks.Api
             return Ok();
         }
 
-        [HttpPut("{id}")] // PUT api/drinks/{id}
+        [HttpPut("{id}/rename")] // PUT api/drinks/{id}/rename
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Rename([FromRoute] Guid id, [FromBody] RenameDrinkDto renameDrinkDto)
