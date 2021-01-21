@@ -67,3 +67,10 @@ Events inherit from ```INotification<>```
 ### Implement the Command & Query Handlers
 See branch ```1_implement_mediator``` for both implemented handlers
 The OrderDrink command is currently not being handled, because this will use the EventBus in a later stage
+
+### Use the IMediator in the controllers
+The IMediator will be used in the controller to dispatch the commands and queries to their registered handlers (which is done by convention through DI)
+- Using the ```Send()``` method, a request/response pattern is used
+  - This means that only one handler can handle the request and a response is expected (Unit, an empty response, is also a response)
+- Using the ```Publish()``` method, a pub/sub or publish/subscribe pattern is used
+  - This means that multiple Handlers can listen to this and no response is expected
