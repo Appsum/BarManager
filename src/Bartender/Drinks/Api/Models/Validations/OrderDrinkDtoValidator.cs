@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Bartender.Api.Drinks.Application.Commands.Dtos;
+
 using FluentValidation;
 
 namespace Bartender.Api.Drinks.Api.Models.Validations

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bartender.Api.Drinks.Api.Models
+namespace Bartender.Api.Drinks.Application.Commands.Dtos
 {
     public class OrderDrinkDto
     {
