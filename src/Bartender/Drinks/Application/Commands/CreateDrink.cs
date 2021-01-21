@@ -1,6 +1,6 @@
 ﻿namespace Bartender.Drinks.Application.Commands
 {
-    public class CreateDrink
+    public class CreateDrink : ICommand
     {
         public CreateDrink(string name)
         {
