@@ -192,9 +192,25 @@ endpoints.MapHub<TablesHub>("tables");
 ```
 
 Setup the ```TablesNotificationHandler``` to send the OrderedDrinks from the notification to all clients listening to an invocation of the ```Deliver``` method on the ```TablesHub``` using the injectable ```IHubContext<TablesHub>``` ([more info](https://docs.microsoft.com/en-us/aspnet/core/signalr/hubcontext)). The method does not have to exist on the TablesHub, because it will be sent directly to the clients.
-See the ```4_signalr-server``` branch for the implementation.
 
+See the ```4_signalr-server``` branch for the implementation.
 Start the Tables project together with both Api projects to test this functionality.
 
 ## Azure Blob Storage
+Azure Blob storage is used as file storage for any type of file.
+1. In the Azure Portal, go to the previously created Storage account
+2. Under Blob service > Container, create a new Blob container called 'receipts' with private access level
+3. Get the Storage account ConnectionString from Settings > Access keys
+
+Put the ConnectionString appsettings.json of the ```Waitress project``` under Azure:BlobStorage. Set the ContainerName to 'receipts'
+
+Add the NuGet packages to the ```Waitress project```: ```Azure.Storage.Blobs``` and ```Microsoft.Extensions.Azure```
+
+Register the BlobServiceClient in an AzureClients builder in the ```Startup.cs```:
+```csharp
+services.AddAzureClients(builder =>
+{
+    builder.AddBlobServiceClient(Configuration[$"{BlobStorageSettings.ConfigurationKey}:ConnectionString"]);
+});
+```
 ## Dockerfile creation
