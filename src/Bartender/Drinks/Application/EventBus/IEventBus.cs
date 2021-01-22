@@ -4,6 +4,6 @@ namespace Bartender.Drinks.Application.EventBus
 {
     public interface IEventBus
     {
-        Task Publish(IMessage message);
+        Task Publish<TMessage>(TMessage message) where TMessage : IMessage;
     }
 }
