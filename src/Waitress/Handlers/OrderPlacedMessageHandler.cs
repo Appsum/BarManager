@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 
 using MediatR;
 
-namespace Waitress.Events
+using Waitress.Events;
+
+namespace Waitress.Handlers
 {
     public class OrderPlacedMessageHandler : INotificationHandler<OrderPlacedMessageReceived>
     {
