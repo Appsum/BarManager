@@ -10,7 +10,7 @@ namespace Bartender.Drinks.Api.Models.Validations
     {
         public OrderDrinkDtoValidator()
         {
-            RuleFor(x => x.Id).NotEqual(Guid.Empty);
+            RuleFor(x => x.Name).NotNull();
             RuleFor(x => x.Amount).GreaterThan(0).LessThanOrEqualTo(50);
         }
     }
