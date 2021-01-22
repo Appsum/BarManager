@@ -204,7 +204,7 @@ Azure Blob storage is used as file storage for any type of file.
 
 Put the ConnectionString appsettings.json of the ```Waitress project``` under Azure:BlobStorage. Set the ContainerName to 'receipts'
 
-Add the NuGet packages to the ```Waitress project```: ```Azure.Storage.Blobs``` and ```Microsoft.Extensions.Azure```
+Add the NuGet packages to the ```Waitress project```: ```Azure.Storage.Blobs``` (**important**, get v12.7.0, 12.8.0 has a bug) and ```Microsoft.Extensions.Azure```
 
 Register the BlobServiceClient in an AzureClients builder in the ```Startup.cs```:
 ```csharp
@@ -213,4 +213,8 @@ services.AddAzureClients(builder =>
     builder.AddBlobServiceClient(Configuration[$"{BlobStorageSettings.ConfigurationKey}:ConnectionString"]);
 });
 ```
+
+Use the ```BlobServiceClient``` and the ContainerName from the ```BlobStorageSettings``` to upload a receipt to the Blob Container in the ```ReceiptNotificationHandler```.
+The Stream required to upload is found on the ```OrderPlacedMessageReceived``` as ```.AsCsvStringStreamForBlobStorage()```.
+See implementation in ```5_blob-storage```
 ## Dockerfile creation

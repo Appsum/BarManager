@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Text.Json;
@@ -12,6 +13,7 @@ using MediatR;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using Waitress.Configuration;
@@ -22,10 +24,12 @@ namespace Waitress
     public class BusListener : BackgroundService
     {
         private readonly IServiceProvider _services;
+        private readonly ILogger<BusListener> _logger;
 
-        public BusListener(IServiceProvider services)
+        public BusListener(IServiceProvider services, ILogger<BusListener> logger)
         {
             _services = services;
+            _logger = logger;
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -58,9 +62,10 @@ namespace Waitress
                     }
                     await mediator.Publish(new OrderPlacedMessageReceived(orderPlaced.Order), cancellationToken);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     // Should handle the exception here when the message cannot be deserialized or published on the Mediator
+                    _logger.LogError("Failed to process the message", ex);
                 }
                 finally
                 {
