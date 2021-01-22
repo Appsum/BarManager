@@ -27,6 +27,8 @@ namespace Waitress
 
             services.AddMediatR(typeof(Startup));
 
+            services.AddHostedService<BusListener>();
+
             services.Configure<ApplicationInsightsSettings>(Configuration.GetSection(ApplicationInsightsSettings.ConfigurationKey));
             services.Configure<ServiceBusSettings>(Configuration.GetSection(ServiceBusSettings.ConfigurationKey));
             services.Configure<BlobStorageSettings>(Configuration.GetSection(BlobStorageSettings.ConfigurationKey));
