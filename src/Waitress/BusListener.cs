@@ -74,7 +74,10 @@ namespace Waitress
             });
 
             // Keep the BackgroundService running until the application shuts down
-            while (!stoppingToken.IsCancellationRequested) { }
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+            }
 
             // Unsubscribe when the application is being stopped
             await subscriptionClient.UnregisterMessageHandlerAsync(TimeSpan.FromSeconds(1));
