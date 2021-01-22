@@ -6,18 +6,20 @@
 5. [Azure Service Bus](#azure-service-bus)
   - [Configure the publishing in the Bartender project](#configure-the-publishing-in-the-bartender-project)
   - [Configure the subscription in the Waitress project](#configure-the-subscription-in-the-waitress-project)
-
+6. [SignalR server setup](#signalr-server-setup)
+7. [Azure Blob Storage](#azure-blob-storage)
+8. [Dockerfile creation](#dockerfile-creation)
 # The BarManager application
 The **Barterder project** exposes an Api to get, create, rename, delete and order drinks. The storage that is used will be Azure Table Storage. Ordering drinks puts a message with contract OrderPlaced on the Azure Servicebus.
 
 The **Waitress.Api project** listens to the same Azure ServiceBus topic for an OrderPlaced message, which puts a message on the SignalR 'TablesHub' for clients to subscribe on. It also creates a receipt file on the Azure Blob storage which contains the data of the order.
 
-The **IntegrationEvents project** contains the shared contracts of the messages sent between the microservices.
+The **Tables project** is a demo client for the SignalR Hub created in [SignalR server setup](#signalr-server-setup).
 
 
 ## Basic version of Clean Architecture
-### Drinks feature
 
+### Drinks feature
 ### Domain
 - Entities, currently only Drink
 - Interfaces for the repositories for the entities
@@ -167,4 +169,52 @@ Register the ```BusListener``` as [ASP.NET Core HostedService](https://docs.micr
 services.AddHostedService<BusListener>();
 ```
 
+Now, when a message is received from the ServiceBus, the ```NotificationHandler```'s ```Handle``` method will be called.
 
+## SignalR server setup
+The ```TablesNotificationHandler``` will be used to signal client connected to the Tables SignalR Hub that a new Order will be delivered. To set this up, add SignalR in the Waitress project's ```Startup.cs``` which is included in the ```Microsoft.AspNetCore.App``` shared framework.
+```csharp
+services.AddSignalR();
+```
+
+> To enable scaling horizontal of a SignalR Server (multiple instances/replicas), a **backplane** should be used to share the state between them. This can be an **Azure SignalR service** or a Redis database.
+> To add the Azure SignalR service as a backplane, create the service in Azure and add ```AddAzureSignalR``` to the SignalR registration
+> ```csharp
+> services.AddSignalR().AddAzureSignalR(Configuration["SignalRConnectionString"])
+> ```
+> For this demo, we will skip adding a backplane.
+
+Create a TablesHub inheriting from the ```Hub``` base class
+
+Register an endpoint "/tables" for the new Tables Hub in the ```Startup.cs```:
+```csharp
+endpoints.MapHub<TablesHub>("tables");
+```
+
+Setup the ```TablesNotificationHandler``` to send the OrderedDrinks from the notification to all clients listening to an invocation of the ```Deliver``` method on the ```TablesHub``` using the injectable ```IHubContext<TablesHub>``` ([more info](https://docs.microsoft.com/en-us/aspnet/core/signalr/hubcontext)). The method does not have to exist on the TablesHub, because it will be sent directly to the clients.
+
+See the ```4_signalr-server``` branch for the implementation.
+Start the Tables project together with both Api projects to test this functionality.
+
+## Azure Blob Storage
+Azure Blob storage is used as file storage for any type of file.
+1. In the Azure Portal, go to the previously created Storage account
+2. Under Blob service > Container, create a new Blob container called 'receipts' with private access level
+3. Get the Storage account ConnectionString from Settings > Access keys
+
+Put the ConnectionString appsettings.json of the ```Waitress project``` under Azure:BlobStorage. Set the ContainerName to 'receipts'
+
+Add the NuGet packages to the ```Waitress project```: ```Azure.Storage.Blobs``` (**important**, get v12.7.0, 12.8.0 has a bug) and ```Microsoft.Extensions.Azure```
+
+Register the BlobServiceClient in an AzureClients builder in the ```Startup.cs```:
+```csharp
+services.AddAzureClients(builder =>
+{
+    builder.AddBlobServiceClient(Configuration[$"{BlobStorageSettings.ConfigurationKey}:ConnectionString"]);
+});
+```
+
+Use the ```BlobServiceClient``` and the ContainerName from the ```BlobStorageSettings``` to upload a receipt to the Blob Container in the ```ReceiptNotificationHandler```.
+The Stream required to upload is found on the ```OrderPlacedMessageReceived``` as ```.AsCsvStringStreamForBlobStorage()```.
+See implementation in ```5_blob-storage```
+## Dockerfile creation
