@@ -1,4 +1,6 @@
-﻿using Bartender.Drinks.Application.EventBus;
+﻿using System.Collections.Generic;
+
+using Bartender.Drinks.Application.EventBus;
 
 namespace Bartender.Drinks.Domain.Events
 {
@@ -6,9 +8,9 @@ namespace Bartender.Drinks.Domain.Events
     {
         public OrderPlaced(Order order)
         {
-            Order = order;
+            Order = order.GetOrder();
         }
 
-        public Order Order { get; }
+        public IReadOnlyDictionary<string, int> Order { get; }
     }
 }
