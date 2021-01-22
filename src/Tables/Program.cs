@@ -7,14 +7,10 @@ using Microsoft.AspNetCore.SignalR.Client;
 
 const string hubUrl = "https://localhost:5011/tables";
 
-// Give the SignalR server hub time to startup
-Console.WriteLine("Will connect to Hub in 5 seconds ...");
-Thread.Sleep(TimeSpan.FromSeconds(5));
-
 // Start the connection
 HubConnection hubConnection = await SetupSignalRHubAsync();
 
-// Setup a listener on the method
+// Setup a listener on the method. This MUST EXACTLY match the method name which the Hub sends to
 hubConnection.On<Dictionary<string, int>>("Deliver", message => PrintDelivery(message));
 
 Console.WriteLine("Connected to Hub");
@@ -26,7 +22,7 @@ while (Console.ReadKey(true).Key != ConsoleKey.Escape) { }
 
 static async Task<HubConnection> SetupSignalRHubAsync()
 {
-    
+    Console.WriteLine($"Connecting to hub at Url '{hubUrl}' ...");
     HubConnection hubConnection = new HubConnectionBuilder()
                                   .WithUrl(hubUrl)
                                   .Build();
