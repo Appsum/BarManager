@@ -157,5 +157,14 @@ Use the ```IEventBus``` in the ```DrinksCommandHandler``` to publish an ```Order
 The Bartender will now put a message on the ServiceBus when an order is placed.
 
 ### Configure the subscription in the Waitress project
+Add a BusListener BackgroundService, which will register to the Subscription on the ServiceBus to listen when a message arrives. When it arrives, publish an ```OrderPlacedMessageReceived``` event through the Mediator which is already configured on the Waitress project.
+This will trigger all subscribed handlers to do their action when it is published. In MediatR, the subscribed handlers implement ```INotificationHandler<TEventType>```.
+See the Handlers folder in the ```3_service-bus``` branch.
+For the background listener implementation, see the ```BusListener.cs``` class.
+
+Register the ```BusListener``` as [ASP.NET Core HostedService](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services) in the ```Startup.cs```:
+```csharp
+services.AddHostedService<BusListener>();
+```
 
 
