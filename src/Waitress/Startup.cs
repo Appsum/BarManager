@@ -29,6 +29,8 @@ namespace Waitress
 
             services.AddHostedService<BusListener>();
 
+            services.AddSignalR();
+
             services.Configure<ApplicationInsightsSettings>(Configuration.GetSection(ApplicationInsightsSettings.ConfigurationKey));
             services.Configure<ServiceBusSettings>(Configuration.GetSection(ServiceBusSettings.ConfigurationKey));
             services.Configure<BlobStorageSettings>(Configuration.GetSection(BlobStorageSettings.ConfigurationKey));
@@ -52,7 +54,11 @@ namespace Waitress
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<TablesHub>("/tables");
+                endpoints.MapControllers();
+            });
         }
     }
 }
