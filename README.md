@@ -2,7 +2,10 @@
 1. [The BarManager application](#the-barmanager-application)
 2. [Basic version of Clean Architecture](#basic-version-of-clean-architecture)
 3. [MediatR](#mediatr)
-3. [Azure Table Storage](#azure-table-storage)
+4. [Azure Table Storage](#azure-table-storage)
+5. [Azure Service Bus](#azure-service-bus)
+  - [Configure the publishing in the Bartender project](#configure-the-publishing-in-the-bartender-project)
+  - [Configure the subscription in the Waitress project](#configure-the-subscription-in-the-waitress-project)
 
 # The BarManager application
 The **Barterder project** exposes an Api to get, create, rename, delete and order drinks. The storage that is used will be Azure Table Storage. Ordering drinks puts a message with contract OrderPlaced on the Azure Servicebus.
@@ -108,11 +111,51 @@ services.AddTransient(provider =>
 });
 ```
 
-Implement the ```AzureTableStorageRepository``` using the CloudTableClient through DI
+Implement the ```AzureTableStorageRepository``` using the ```CloudTableClient``` through DI
 See the ```2_table-storage``` branch for the inplementation
 
-Register the new ```AzureTableStorageRepository``` in DI as implementation of IDrinksRepository
+Register the new ```AzureTableStorageRepository``` in DI as implementation of ```IDrinksRepository```
 ```csharp
 // services.AddSingleton<IDrinksRepository, InMemoryDrinksRepository>();
 services.AddTransient<IDrinksRepository, AzureTableStorageDrinksRepository>();
 ```
+
+
+## Azure Service Bus
+In the Azure Portal:
+1. Create a Service Bus (Integration > Service Bus) in the same resource group
+    - Make sure to select Standard or Premium price tier for Topic support
+2. Under Entities > Topics, create a Topic called drinkorders
+3. On the Topic, create a Subscription called waitress with a max delivery count of 10
+
+In the Bartender and waitress project, install the NuGet package ```Microsoft.Azure.ServiceBus```
+Get the connection string from the Service Bus Namespace > Settings > Shared access policies > RootManagedSharedAccessKey
+Set the ConnectionString and TopicName in the ```appsettings.json``` file in the Bartender project
+Set the Connectionstring, TopicName and SubscriptionName in the file in the Waitress project
+
+### Configure the publishing in the Bartender project
+Register a new ```TopicClient``` with the settings as an ITopicClient:
+```csharp
+services.AddSingleton<ITopicClient>(serviceProvider =>
+{
+    ServiceBusSettings serviceBusSettings = serviceProvider.GetRequiredService<IOptions<ServiceBusSettings>>().Value;
+    return new TopicClient(serviceBusSettings.ConnectionString, serviceBusSettings.TopicName, RetryPolicy.Default);
+});
+```
+
+In the Infrastructure layer, add a concrete implementation of the ```IEventBus``` as ```AzureEventBus``` that uses the ```TopicClient``` to publish to the Topic with the message as a serialized JSON string
+See the implementation in the ```3_service-bus``` branch
+
+Register the new ```AzureEventBus``` as the ```IEventBus```:
+```csharp
+// services.AddTransient<IEventBus, NullEventBus>();
+services.AddTransient<IEventBus, AzureEventBus>();
+```
+
+Use the ```IEventBus``` in the ```DrinksCommandHandler``` to publish an ```OrderPlaced``` message on the ServiceBus when an ```OrderDrinks``` command is sent through the Mediator.
+
+The Bartender will now put a message on the ServiceBus when an order is placed.
+
+### Configure the subscription in the Waitress project
+
+
