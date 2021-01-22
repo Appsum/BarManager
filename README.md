@@ -6,7 +6,9 @@
 5. [Azure Service Bus](#azure-service-bus)
   - [Configure the publishing in the Bartender project](#configure-the-publishing-in-the-bartender-project)
   - [Configure the subscription in the Waitress project](#configure-the-subscription-in-the-waitress-project)
-
+6. [SignalR server setup](#signalr-server-setup)
+7. [Azure Blob Storage](#azure-blob-storage)
+8. [Dockerfile creation](#dockerfile-creation)
 # The BarManager application
 The **Barterder project** exposes an Api to get, create, rename, delete and order drinks. The storage that is used will be Azure Table Storage. Ordering drinks puts a message with contract OrderPlaced on the Azure Servicebus.
 
@@ -167,4 +169,10 @@ Register the ```BusListener``` as [ASP.NET Core HostedService](https://docs.micr
 services.AddHostedService<BusListener>();
 ```
 
+Now, when a message is received from the ServiceBus,
 
+## SignalR server setup
+
+
+## Azure Blob Storage
+## Dockerfile creation
