@@ -16,18 +16,14 @@ namespace Bartender.Drinks.Infrastructure.EventBus
         {
             _topicClient = topicClient;
         }
-        public async Task Publish(IMessage message)
+        public async Task Publish<TMessage>(TMessage message) where TMessage : IMessage
         {
             if (message == null)
             {
                 throw new ArgumentNullException(nameof(message));
             }
             
-            byte[] payload = JsonSerializer.SerializeToUtf8Bytes(message, new JsonSerializerOptions
-            {
-                WriteIndented = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            });
+            byte[] payload = JsonSerializer.SerializeToUtf8Bytes(message);
 
             var serviceBusMessage = new Message(payload);
             await _topicClient.SendAsync(serviceBusMessage);
