@@ -2,6 +2,7 @@ using MediatR;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -34,6 +35,11 @@ namespace Waitress
             services.Configure<ApplicationInsightsSettings>(Configuration.GetSection(ApplicationInsightsSettings.ConfigurationKey));
             services.Configure<ServiceBusSettings>(Configuration.GetSection(ServiceBusSettings.ConfigurationKey));
             services.Configure<BlobStorageSettings>(Configuration.GetSection(BlobStorageSettings.ConfigurationKey));
+
+            services.AddAzureClients(builder =>
+            {
+                builder.AddBlobServiceClient(Configuration[$"{BlobStorageSettings.ConfigurationKey}:ConnectionString"]);
+            });
 
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "Waitress.Api", Version = "v1"}); });
         }
