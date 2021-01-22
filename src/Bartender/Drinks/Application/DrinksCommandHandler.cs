@@ -1,8 +1,12 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Bartender.Drinks.Application.Commands;
+using Bartender.Drinks.Application.Commands.Dtos;
+using Bartender.Drinks.Application.EventBus;
 using Bartender.Drinks.Domain;
+using Bartender.Drinks.Domain.Events;
 using Bartender.Drinks.Domain.Repositories;
 
 using MediatR;
@@ -12,10 +16,12 @@ namespace Bartender.Drinks.Application
     public class DrinksCommandHandler : ICommandHandler<CreateDrink>, ICommandHandler<RenameDrink>, ICommandHandler<DeleteDrink>, ICommandHandler<OrderDrinks>
     {
         private readonly IDrinksRepository _drinksRepository;
+        private readonly IEventBus _eventBus;
 
-        public DrinksCommandHandler(IDrinksRepository drinksRepository)
+        public DrinksCommandHandler(IDrinksRepository drinksRepository, IEventBus eventBus)
         {
             _drinksRepository = drinksRepository;
+            _eventBus = eventBus;
         }
 
         public async Task<Unit> Handle(CreateDrink request, CancellationToken cancellationToken)
@@ -42,7 +48,13 @@ namespace Bartender.Drinks.Application
 
         public Task<Unit> Handle(OrderDrinks request, CancellationToken cancellationToken)
         {
-            // To be implemented with EventBus
+            var order = new Order();
+            foreach (OrderDrinkDto orderDrinkDto in request.Orders)
+            {
+                order.OrderDrink(orderDrinkDto.Name, orderDrinkDto.Amount);
+            }
+
+            _eventBus.Publish(new OrderPlaced(order));
 
             return Task.FromResult(Unit.Value);
         }
