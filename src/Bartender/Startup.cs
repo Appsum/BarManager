@@ -38,7 +38,8 @@ namespace Bartender
 
             // services.AddSingleton<IDrinksRepository, InMemoryDrinksRepository>();
             services.AddTransient<IDrinksRepository, AzureTableStorageDrinksRepository>();
-            services.AddTransient<IEventBus, NullEventBus>();
+            // services.AddTransient<IEventBus, NullEventBus>();
+            services.AddTransient<IEventBus, AzureEventBus>();
 
             services.Configure<ApplicationInsightsSettings>(Configuration.GetSection(ApplicationInsightsSettings.ConfigurationKey));
             services.Configure<EventHubSettings>(Configuration.GetSection(EventHubSettings.ConfigurationKey));
