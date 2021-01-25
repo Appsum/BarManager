@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  bartender:
+    image: ${DOCKER_REGISTRY-}bartender
+    build:
+      context: .
+      dockerfile: src/Bartender/Dockerfile
+
+  waitress:
+    image: ${DOCKER_REGISTRY-}waitress
+    build:
+      context: .
+      dockerfile: src/Waitress/Dockerfile
+    depends_on: # Example dependency, start this after the bartender service. This is used for when a service needs a database that is running for example
+      - bartender
