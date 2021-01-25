@@ -1,0 +1,21 @@
+---
+# Source: bartender/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: bartender-dev
+  labels:
+    helm.sh/chart: bartender-0.1.0
+    app.kubernetes.io/name: bartender
+    app.kubernetes.io/instance: bartender-dev
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  rules:
+    - host: "barmanager.local"
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: bartender-dev
+              servicePort: 80

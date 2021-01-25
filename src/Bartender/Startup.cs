@@ -34,6 +34,7 @@ namespace Bartender
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHealthChecks();
             services.AddMediatR(typeof(Startup));
 
             // services.AddSingleton<IDrinksRepository, InMemoryDrinksRepository>();
@@ -53,7 +54,7 @@ namespace Bartender
             services.AddControllers()
                     .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<Startup>());
 
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo {Title = "BarManager.Api", Version = "v1"}); });
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "BarManager.Api", Version = "v1" }); });
         }
 
         private static void RegisterCloudTableClient(IServiceCollection services)
@@ -83,18 +84,17 @@ namespace Bartender
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BarManager.Api v1"));
-            }
 
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BarManager.Api v1"));
             // app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseHealthChecks("/healthz");
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

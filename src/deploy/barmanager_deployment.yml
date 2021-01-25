@@ -1,0 +1,41 @@
+---
+# Source: bartender/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bartender-dev  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: bartender
+      app.kubernetes.io/instance: bartender-dev
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: bartender
+        app.kubernetes.io/instance: bartender-dev
+    spec:
+      serviceAccountName: default
+      securityContext:
+        {}
+      containers:
+        - name: bartender
+          securityContext:
+            {}
+          image: "crbarmanagerjan.azurecr.io/barmanager:1.0.2"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+          resources:
+            {}

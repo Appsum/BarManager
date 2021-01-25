@@ -1,0 +1,1 @@
+az aks update -n egssis-course-cluster -g rg-egssis-course --attach-acr $(az acr show -n crbarmanagerjan --query "id" -o tsv)
